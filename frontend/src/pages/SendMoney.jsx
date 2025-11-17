@@ -20,36 +20,71 @@ export const SendMoney = () => {
   const [amount, setAmount] = useState(0);
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      <div className="h-full flex flex-col justify-center">
-        <div className="border h-min text-card-foreground max-w-md p-4 space-y-8 w-96 bg-white shadow-lg rounded-lg">
-          <div className="flex flex-col p-6">
-            <h2 className="text-3xl font-bold text-center">Send Money</h2>
-          </div>
-          <div className="p-6">
-            <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center">
-                <span className="text-2xl text-white">
-                  {name && name.length > 0 && name[0].toUpperCase()}
-                </span>
-              </div>
-              <h3 className="text-2xl font-semibold">{name}</h3>
+    <div className="min-h-screen bg-gradient-to-b from-[#F7F9FC] to-white flex items-center justify-center p-6">
+      <div className="w-full max-w-md">
+        <div className="bg-white rounded-2xl shadow-lg border border-[#E6EDF8] overflow-hidden">
+          {/* Header */}
+          <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => navigate(-1)}
+                className="p-2 rounded-md hover:bg-gray-100 transition"
+                aria-label="Go back"
+              >
+                <i class="ri-arrow-left-line"></i>
+              </button>
+              <h3 className="text-lg font-semibold text-gray-900">
+                Send Money
+              </h3>
             </div>
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                  Amount (in Rs)
-                </label>
+
+            <div className="text-sm text-gray-500">Secure transfer</div>
+          </div>
+
+          {/* Body */}
+          <div className="p-6">
+            <div className="flex items-center gap-4 mb-5">
+              <div className="h-12 w-12 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 font-semibold text-lg">
+                {name && name.length > 0 ? name[0].toUpperCase() : "U"}
+              </div>
+              <div>
+                <div className="text-lg font-medium text-gray-900">{name}</div>
+                <div className="text-xs text-gray-500">Recipient</div>
+              </div>
+            </div>
+
+            {/* Amount input */}
+            <div className="mb-4">
+              <label
+                htmlFor="amount"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Amount (in Rs)
+              </label>
+
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+                  ₹
+                </span>
                 <input
                   onChange={(e) => {
                     setAmount(e.target.value);
                   }}
                   type="number"
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                   id="amount"
                   placeholder="Enter amount"
+                  className="w-full pl-9 pr-3 h-12 rounded-lg border border-gray-200 bg-white text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-100"
                 />
               </div>
+
+              <p className="mt-2 text-xs text-gray-400">
+                Transfers are instant. Make sure the amount is correct before
+                confirming.
+              </p>
+            </div>
+
+            {/* Buttons */}
+            <div className="space-y-3">
               <button
                 onClick={async () => {
                   const res = await axios.post(
@@ -66,20 +101,27 @@ export const SendMoney = () => {
                       },
                     }
                   );
-                  // console.log(res.data.message);
                   navigate("/paymentstatus?message=" + res?.data.message);
                 }}
-                className="justify-center rounded-md text-sm font-medium ring-offset-background transition-colors h-10 px-4 py-2 w-full bg-green-500 text-white"
+                className="w-full flex items-center justify-center gap-2 h-11 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium transition"
               >
+                {/* optional spinner could be added here later */}
                 Initiate Transfer
               </button>
+
               <button
                 onClick={() => navigate("/dashboard")}
-                className="justify-center rounded-md text-sm font-medium ring-offset-background transition-colors h-10 px-4 py-2 w-full bg-red-500 text-white"
+                className="w-full flex items-center justify-center h-11 rounded-lg border border-gray-200 text-gray-700 bg-white hover:bg-gray-50 transition"
               >
                 Cancel & Go Back
               </button>
             </div>
+          </div>
+
+          {/* Footer note */}
+          <div className="px-6 py-3 border-t border-gray-100 text-xs text-gray-400">
+            By initiating this transfer you agree to the demo terms. This is a
+            student project — no real money is used.
           </div>
         </div>
       </div>

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 export const Users = () => {
   const [users, setUsers] = useState([]);
   const [filter, setFilter] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -19,18 +20,21 @@ export const Users = () => {
 
   return (
     <>
-      <div className="font-bold mt-6 text-lg">Users</div>
-      <div className="mt-4 mb-10">
+      <div className="font-semibold mt-8 text-gray-900 text-lg">Users</div>
+
+      {/* Search */}
+      <div className="mt-3 mb-4">
         <input
-          onChange={(e) => {
-            setFilter(e.target.value);
-          }}
+          onChange={(e) => setFilter(e.target.value)}
           type="text"
           placeholder="Search users..."
-          className="w-full px-2 py-1 border rounded border-slate-200"
-        ></input>
+          className="w-full px-3 py-2 border border-[#E6EDF8] rounded-lg bg-white text-sm 
+                     focus:outline-none focus:ring-2 focus:ring-[#EAF3FF] placeholder-gray-400"
+        />
       </div>
-      <div>
+
+      {/* Users list */}
+      <div className="space-y-2">
         {users.map((user) => (
           <User key={user._id} user={user} />
         ))}
@@ -43,26 +47,35 @@ function User({ user }) {
   const navigate = useNavigate();
 
   return (
-    <div className="flex justify-between">
-      <div className="flex">
-        <div className="rounded-full h-12 w-12 bg-slate-200 flex justify-center mt-1 mr-2">
-          <div className="flex flex-col justify-center h-full text-xl">
-            {user.firstName[0].toUpperCase()}
-          </div>
+    <div
+      className="w-full bg-white rounded-lg px-3 py-2 shadow-sm border border-[#E6EDF8] 
+                    flex items-center justify-between"
+    >
+      {/* Left: Avatar + Name */}
+      <div className="flex items-center gap-3">
+        {/* Avatar */}
+        <div
+          className="h-10 w-10 rounded-full bg-[#EAF3FF] flex items-center justify-center 
+                        text-[#1A73E8] font-semibold text-base"
+        >
+          {user.firstName[0].toUpperCase()}
         </div>
-        <div className="flex flex-col justify-center h-ful">
-          <div>
+
+        <div className="flex flex-col">
+          <div className="text-sm font-medium text-gray-900">
             {user.firstName} {user.lastName}
           </div>
+          <div className="text-xs text-gray-500">{user.email || "User"}</div>
         </div>
       </div>
 
-      <div className="flex flex-col justify-center h-ful">
+      {/* Send Money Button */}
+      <div className="flex-shrink-0">
         <Button
-          onClick={(e) => {
-            navigate("/send?id=" + user._id + "&name=" + user.firstName);
-          }}
-          label={"Send Money"}
+          onClick={() =>
+            navigate("/send?id=" + user._id + "&name=" + user.firstName)
+          }
+          label="Send Money"
         />
       </div>
     </div>

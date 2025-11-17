@@ -3,7 +3,7 @@ export function Button({ label, onClick }) {
     <button
       onClick={onClick}
       type="button"
-      className="w-full text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+      className="w-full text-white bg-[#1A73E8] hover:bg-[#0055FF] focus:outline-none focus:ring-4 focus:ring-[#EAF3FF] font-medium rounded-lg text-sm px-5 py-2.5 shadow-sm transition-transform transform hover:-translate-y-0.5 active:translate-y-0"
     >
       {label}
     </button>

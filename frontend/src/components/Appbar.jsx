@@ -21,9 +21,10 @@ export const Appbar = () => {
         })
         .then((response) => {
           setUser(response.data);
-        });
+        })
+        .catch((err) => console.error(err));
     }
-  }, []);
+  }, [navigate]);
 
   const signOutHandler = () => {
     localStorage.removeItem("token");
@@ -31,38 +32,64 @@ export const Appbar = () => {
     navigate("/signin");
   };
 
+  const firstInitial = user?.firstName?.[0]?.toUpperCase() || "U";
+
   return (
-    <div className="shadow h-14 flex justify-between items-center md:px-10">
-      <Link to={"/dashboard"}>
-        <div className="flex flex-col justify-center h-full ml-4 font-bold text-xl">
-          Rupay
-        </div>
-      </Link>
+    <>
+      {/* NAVBAR */}
+      <div className="shadow-sm h-20 flex items-center px-6 md:px-10 bg-white border-b border-gray-100">
 
-      <div className="flex items-center justify-center gap-3">
+        {/* LEFT — Logo + Brand */}
+        <Link to={"/dashboard"} className="flex items-center gap-3">
+          <div className="flex items-center justify-center rounded-md w-10 h-10 bg-blue-600 text-white font-bold text-xl">
+            ₹
+          </div>
 
-        {/* ⭐ HISTORY BUTTON — added here */}
-        <Link to="/history">
-          <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-            History
-          </button>
+          <div className="flex flex-col leading-tight">
+            <div className="text-lg font-semibold text-gray-900">₹ Pay</div>
+            <div className="text-xs text-gray-500">Simple. Fast. Secure.</div>
+          </div>
         </Link>
 
-        {/* SIGN OUT button */}
-        <Button label={"Sign Out"} onClick={signOutHandler} />
+        {/* SPACER */}
+        <div className="flex-1"></div>
 
-        {/* USER NAME */}
-        <div className="flex flex-col justify-center h-full mr-4">
-          {user?.firstName}
-        </div>
+        {/* RIGHT — HISTORY → USER NAME → AVATAR */}
+        <div className="flex items-center gap-6">
 
-        {/* USER AVATAR */}
-        <div className="rounded-full h-10 w-10 p-4 bg-slate-200 flex justify-center mr-2">
-          <div className="flex flex-col justify-center h-full text-xl">
-            {user?.firstName[0].toUpperCase()}
+          {/* HISTORY (simple link, NOT a button) */}
+          <Link
+            to="/history"
+            className="text-sm text-gray-700 hover:text-blue-600 transition"
+          >
+            History
+          </Link>
+
+          {/* USER NAME */}
+          <div className="hidden sm:flex flex-col text-right">
+            <div className="text-sm font-medium text-gray-800">
+              {user?.firstName ?? "User"}
+            </div>
+            <div className="text-xs text-gray-500">Verified User</div>
           </div>
+
+          {/* USER AVATAR */}
+          <div className="rounded-full h-10 w-10 flex items-center justify-center bg-gray-100 text-gray-700 font-semibold text-lg">
+            {firstInitial}
+          </div>
+
         </div>
       </div>
-    </div>
+
+      {/* FLOATING SIGN OUT BUTTON */}
+      <div className="fixed right-6 bottom-6 z-50">
+        <button
+          onClick={signOutHandler}
+          className="bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-gray-800 transition"
+        >
+          <i class="ri-logout-box-r-line"></i>
+        </button>
+      </div>
+    </>
   );
 };
