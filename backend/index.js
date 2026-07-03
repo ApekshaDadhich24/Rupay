@@ -14,12 +14,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/api/v1", mainRouter);
 
-
-// Wild card route to integrate frontend
-app.use("*name", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
-
 // /api/v1/user/signup
 // /api/v1/user/signin
 
@@ -37,11 +31,25 @@ const connectDB = async () => {
   }
 };
 
-app.get("/server", (req, res) => {
-  res.json("Server is up and running");
-});
-
 app.listen(process.env.PORT, () => {
   connectDB();
   console.log("Server is running on port: " + process.env.PORT);
+});
+
+const fs = require("fs");
+
+app.get("/debug", (req, res) => {
+  res.json({
+    dirname: __dirname,
+    publicExists: fs.existsSync(path.join(__dirname, "public")),
+    assetsExists: fs.existsSync(path.join(__dirname, "public", "assets")),
+    jsExists: fs.existsSync(
+      path.join(__dirname, "public", "assets", "index-DxoZKpYW.js")
+    ),
+  });
+});
+
+// Wild card route to integrate frontend
+app.use("*name", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
