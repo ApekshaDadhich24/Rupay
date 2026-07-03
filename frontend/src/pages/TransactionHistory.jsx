@@ -8,12 +8,12 @@ export default function TransactionHistory() {
   async function handleData() {
     try {
       const res = await axios.get(
-        "http://localhost:3000/api/v1/account/history",
+        "https://rupay.onrender.com/api/v1/account/history",
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
-        }
+        },
       );
 
       // Get current logged-in userId from localStorage
