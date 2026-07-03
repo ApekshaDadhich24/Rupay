@@ -1,2 +1,21 @@
-node_modules
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Environment files
 .env
+.env.*
+**/.env
+**/.env.*
+
+# Build folders (optional)
+dist/
+build/
+
+# Logs (optional)
+logs/
+*.log
+
+# OS files (optional)
+.DS_Store
+Thumbs.db

@@ -3,21 +3,29 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const mainRouter = require("./routes/index");
 const cors = require("cors");
+const path = require("path");
 
 const app = express();
 dotenv.config();
 
 app.use(express.json());
 app.use(cors());
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/api/v1", mainRouter);
 
+
+// Wild card route to integrate frontend
+app.use("*name", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
 // /api/v1/user/signup
 // /api/v1/user/signin
-// /api/v1/user/changePassword.....
 
 // /api/v1/account/transferMoney
 // /api/v1/account/balance
+// /api/v1/account/history
 
 //database
 const connectDB = async () => {
@@ -29,7 +37,7 @@ const connectDB = async () => {
   }
 };
 
-app.get("/", (req, res) => {
+app.get("/server", (req, res) => {
   res.json("Server is up and running");
 });
 
