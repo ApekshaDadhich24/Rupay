@@ -3,14 +3,20 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const mainRouter = require("./routes/index");
 const cors = require("cors");
-const path = require("path");
 
 const app = express();
 dotenv.config();
 
 app.use(express.json());
-app.use(cors());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173", // Local development
+      "https://rupay-ten.vercel.app", // Production frontend
+    ],
+    credentials: true,
+  }),
+);
 
 app.use("/api/v1", mainRouter);
 
